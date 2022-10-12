@@ -126,14 +126,14 @@ email | string | yes | User email
 
 # Fund Draft
 
-## Create Fund Draft
+## Create Fund Draft For A Kid
 
 ```shell
 curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund_drafs" \
   -H 'Content-Type: application/json'
   -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
-  -d '{"beneficiary_first_name": "John",
-       "beneficiary_middle_name": "Sylvester",
+  -d '{"prebirth": false,
+       "beneficiary_first_name": "John",
        "beneficiary_last_name": "Doe",
        "beneficiary_born_on": "2020-03-17",
        "beneficiary_ssn": "123456789",
@@ -205,6 +205,7 @@ user_uuid | UUID | yes | User UUID
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
+prebirth | boolean | yes | if true account is for a kid, else it's for a future baby
 beneficiary_first_name | string | yes | kid first name
 beneficiary_middle_name | string | no | kid middle name
 beneficiary_last_name | string | yes | kid last name
@@ -256,3 +257,90 @@ owner_mailing_address_state | string | yes | user physical address: state
     <li>other</li>
   </ul>
 </aside>
+
+## Create Fund Draft For A Future Baby
+
+```shell
+curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund_drafs" \
+  -H 'Content-Type: application/json'
+  -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
+  -d '{"prebirth": true,
+       "owner_first_name": "John",
+       "owner_last_name": "Frusciante",
+       "owner_born_on": "1970-03-05",
+       "owner_ssn": "321654987",
+       "owner_phone": "5555555555",
+       "owner_physical_address_street": "4900 Marie P DeBartolo Way",
+       "owner_physical_address_zip": "95054",
+       "owner_physical_address_city": "Santa Clara",
+       "owner_physical_address_state": "CA",
+       "owner_mailing_address_street": "4900 Marie P DeBartolo Way",
+       "owner_mailing_address_zip": "95054",
+       "owner_mailing_address_city": "Santa Clara",
+       "owner_mailing_address_state": "CA"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "uuid": "03303252-904e-4d1b-a304-8ec1d3abe6d0",
+  "beneficiary_first_name": "John",
+  "beneficiary_middle_name": null,
+  "beneficiary_last_name": "Frusciante",
+  "beneficiary_born_on": "1970-03-05",
+  "beneficiary_ssn": "123456789",
+  "beneficiary_physical_address_street": "4900 Marie P DeBartolo Way",
+  "beneficiary_physical_address_zip": "95054",
+  "beneficiary_physical_address_city": "Santa Clara",
+  "beneficiary_physical_address_state": "CA",
+  "owner_first_name": "John",
+  "owner_middle_name": null,
+  "owner_last_name": "Frusciante",
+  "owner_born_on": "1970-03-05",
+  "owner_relationship": "self",
+  "owner_ssn": "321654987",
+  "owner_phone": "5555555555",
+  "owner_physical_address_street": "4900 Marie P DeBartolo Way",
+  "owner_physical_address_zip": "95054",
+  "owner_physical_address_city": "Santa Clara",
+  "owner_physical_address_state": "CA",
+  "owner_mailing_address_street": "4900 Marie P DeBartolo Way",
+  "owner_mailing_address_zip": "95054",
+  "owner_mailing_address_city": "Santa Clara",
+  "owner_mailing_address_state": "CA"
+```
+
+This endpoint creates a fund draft to provision a new fund.
+
+### HTTP Request
+
+`POST https://backer.com/restapi/users/<user_uuid>/fund_drafts`
+
+### URL Parameters
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+user_uuid | UUID | yes | User UUID
+
+### Query Parameters
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+prebirth | boolean | yes | if true account is for a kid, else it's for a future baby
+owner_first_name | string | yes | user first name
+owner_middle_name | string | no | user middle name
+owner_last_name | string | yes | user last name
+owner_born_on | date | yes | user birth date
+owner_ssn | string | yes | kid social security number
+owner_phone | phone | yes | user phone number
+owner_physical_address_street | string | yes | user physical address: street line 1
+owner_physical_address_street2 | string | no | user physical address: street line 2
+owner_physical_address_zip | string | yes | user physical address: zip code
+owner_physical_address_city | string | yes | user physical address: city
+owner_physical_address_state | string | yes | user physical address: state
+owner_mailing_address_street | string | yes | user physical address: street line 1
+owner_mailing_address_street2 | string | no | user physical address: street line 2
+owner_mailing_address_zip | string | yes | user physical address: zip code
+owner_mailing_address_city | string | yes | user physical address: city
+owner_mailing_address_state | string | yes | user physical address: state

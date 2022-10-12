@@ -6,7 +6,7 @@ The Backer API uses the following error codes:
 Error Code | Meaning
 ---------- | -------
 400 | Bad Request -- Your request is invalid.
-401 | Unauthorized -- Your API key is wrong.
+401 | Unauthorized -- Your API token is wrong.
 403 | Forbidden -- You are not allowed to access that data.
 404 | Not Found -- The specified resource could not be found.
 406 | Not Acceptable -- You requested a format that isn't json.
