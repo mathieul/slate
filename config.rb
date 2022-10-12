@@ -54,6 +54,9 @@ configure :build do
   # activate :gzip
 end
 
+# Documentation variables
+set :authorization_token, "109cb6fd-5658-4297-9bbf-8fa42be80f6c"
+
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
 set :port, 4567
