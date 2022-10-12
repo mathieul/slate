@@ -30,7 +30,7 @@ Welcome to the Backer API.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
+curl "api/endpoint/here" \
   -H 'Content-Type: application/json'
   -H "Authorization: <API token>"
 ```
@@ -88,6 +88,7 @@ external_id | string | yes | External user ID used to register this user.
 
 ```shell
 curl "https://backer.com/restapi/users" \
+  -X POST
   -H 'Content-Type: application/json'
   -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
   -d '{"external_id": "USR123-456",
@@ -130,6 +131,7 @@ email | string | yes | User email
 
 ```shell
 curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund_drafs" \
+  -X POST
   -H 'Content-Type: application/json'
   -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
   -d '{"prebirth": false,
@@ -187,6 +189,7 @@ curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund
   "owner_mailing_address_zip": "94107",
   "owner_mailing_address_city": "San Francisco",
   "owner_mailing_address_state": "CA"
+}
 ```
 
 This endpoint creates a fund draft to provision a new fund.
@@ -243,7 +246,7 @@ owner_mailing_address_state | string | yes | user physical address: state
 </aside>
 
 <aside class="notice">
-  <strong>A relationship can be any of those values:</strong>
+  <strong>A relationship can take any of those values:</strong>
   <ul>
     <li>aunt</li>
     <li>father</li>
@@ -262,6 +265,7 @@ owner_mailing_address_state | string | yes | user physical address: state
 
 ```shell
 curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund_drafs" \
+  -X POST
   -H 'Content-Type: application/json'
   -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
   -d '{"prebirth": true,
@@ -309,6 +313,7 @@ curl "https://backer.com/restapi/users/e95d1ea1-9f5b-44d6-822f-ad4a481ba2c8/fund
   "owner_mailing_address_zip": "95054",
   "owner_mailing_address_city": "Santa Clara",
   "owner_mailing_address_state": "CA"
+}
 ```
 
 This endpoint creates a fund draft to provision a new fund.
@@ -321,7 +326,7 @@ This endpoint creates a fund draft to provision a new fund.
 
 Parameter | Type | Required | Description
 --------- | ---- | -------- | -----------
-user_uuid | UUID | yes | User UUID
+user_uuid | UUID | yes | user UUID
 
 ### Query Parameters
 
@@ -344,3 +349,132 @@ owner_mailing_address_street2 | string | no | user physical address: street line
 owner_mailing_address_zip | string | yes | user physical address: zip code
 owner_mailing_address_city | string | yes | user physical address: city
 owner_mailing_address_state | string | yes | user physical address: state
+
+## Update A Fund Draft
+
+```shell
+curl "https://backer.com/restapi/fund_drafs/0b9f81a6-e696-49cd-b875-90ebf477f0a3" \
+  -X PUT
+  -H 'Content-Type: application/json'
+  -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
+  -d '{"owner_born_on": "1971-03-09"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "uuid": "0b9f81a6-e696-49cd-b875-90ebf477f0a3",
+  "beneficiary_first_name": "John",
+  "beneficiary_middle_name": "Sylvester",
+  "beneficiary_last_name": "Doe",
+  "beneficiary_born_on": "1971-03-09",
+  "beneficiary_ssn": "123456789",
+  "beneficiary_physical_address_street": "474 Bryant St",
+  "beneficiary_physical_address_zip": "94107",
+  "beneficiary_physical_address_city": "San Francisco",
+  "beneficiary_physical_address_state": "CA",
+  "owner_first_name": "Jane",
+  "owner_middle_name": "Arianne",
+  "owner_last_name": "Doe",
+  "owner_born_on": "1982-01-11",
+  "owner_relationship": "mother",
+  "owner_ssn": "321654987",
+  "owner_phone": "5555555555",
+  "owner_physical_address_street": "474 Bryant St",
+  "owner_physical_address_zip": "94107",
+  "owner_physical_address_city": "San Francisco",
+  "owner_physical_address_state": "CA",
+  "owner_mailing_address_street": "474 Bryant St",
+  "owner_mailing_address_zip": "94107",
+  "owner_mailing_address_city": "San Francisco",
+  "owner_mailing_address_state": "CA"
+}
+```
+
+This endpoint updates a fund draft.
+
+### HTTP Request
+
+`PUT https://backer.com/restapi/fund_drafts/<draft_uuid>`
+
+### URL Parameters
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+fund_draft_uuid | UUID | yes | fund draft UUID
+
+### Query Parameters
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+beneficiary_first_name | string | yes | kid first name
+beneficiary_middle_name | string | no | kid middle name
+beneficiary_last_name | string | yes | kid last name
+beneficiary_born_on | date (iso8601) | yes | kid birth date
+beneficiary_ssn | string | yes | kid social security number
+beneficiary_physical_address_street | string | yes | kid physical address: street line 1
+beneficiary_physical_address_street2 | string | yes | kid physical address: street line 2
+beneficiary_physical_address_zip | string | yes | kid physical address: zip code
+beneficiary_physical_address_city | string | yes | kid physical address: city
+beneficiary_physical_address_state | string | yes | kid physical address: state
+owner_first_name | string | yes | user first name
+owner_middle_name | string | no | user middle name
+owner_last_name | string | yes | user last name
+owner_born_on | date | yes | user birth date
+owner_relationship | relationship | yes | user relationship to the kid
+owner_ssn | string | yes | kid social security number
+owner_phone | phone | yes | user phone number
+owner_physical_address_street | string | yes | user physical address: street line 1
+owner_physical_address_street2 | string | no | user physical address: street line 2
+owner_physical_address_zip | string | yes | user physical address: zip code
+owner_physical_address_city | string | yes | user physical address: city
+owner_physical_address_state | string | yes | user physical address: state
+owner_mailing_address_street | string | yes | user physical address: street line 1
+owner_mailing_address_street2 | string | no | user physical address: street line 2
+owner_mailing_address_zip | string | yes | user physical address: zip code
+owner_mailing_address_city | string | yes | user physical address: city
+owner_mailing_address_state | string | yes | user physical address: state
+
+# Funds
+
+## Establish a new fund
+
+```shell
+curl "https://backer.com/restapi/funds" \
+  -X POST
+  -H 'Content-Type: application/json'
+  -H "Authorization: 109cb6fd-5658-4297-9bbf-8fa42be80f6c"
+  -d '{"fund_draft_uuid": "0b9f81a6-e696-49cd-b875-90ebf477f0a3",
+       "risk_level": "maximizing_gains"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "uuid": "c516af7e-69f4-4a9f-ad50-32524bd4a0c8"
+}
+```
+
+This endpoint requests to establish a new fund from a fund draft.
+
+### HTTP Request
+
+`PUT https://backer.com/restapi/funds`
+
+### Query Parameters
+
+Parameter | Type | Required | Description
+--------- | ---- | -------- | -----------
+fund_draft_uuid | UUID | yes | UUID of the fund draft to establish as a fund
+risk_level | risk_level | yes | investment risk level
+
+<aside class="notice">
+  <strong>A risk level can take any of those values:</strong>
+  <ul>
+    <li>maximizing_gains</li>
+    <li>minimizing_losses</li>
+    <li>maximizing_gains_and_minimizing_losses</li>
+  </ul>
+</aside>
